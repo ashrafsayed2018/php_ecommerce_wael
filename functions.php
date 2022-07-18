@@ -34,6 +34,7 @@ function insertData($table, $data, $json = true)
     foreach ($data as $field => $v)
         $ins[] = ':' . $field;
     $ins = implode(',', $ins);
+
     $fields = implode(',', array_keys($data));
     $sql = "INSERT INTO $table ($fields) VALUES ($ins)";
 
@@ -47,7 +48,7 @@ function insertData($table, $data, $json = true)
         if ($count > 0) {
             echo json_encode(array("status" => "success"));
         } else {
-            echo json_encode(array("status" => "failure"));
+            printFailure("حدث خطأ أثناء إنشاء الحساب");
         }
     }
     return $count;
@@ -143,4 +144,12 @@ function checkAuthenticate()
     }
 
     // End 
+}
+
+
+function printFailure($message = "")
+{
+    echo json_encode(array("status" => "failure", "message" => $message));
+
+    exit;
 }
